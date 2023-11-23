@@ -1,10 +1,15 @@
 import { BLOGS_LIST_API, GET_BLOG_DETAILS_API } from "@/constants/apiUrls";
 import React from "react";
-import Blog from "./types";
 import { GetStaticProps } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import Blog from "@/types/blogs";
 
 const BlogDetails = ({ blogDetails }: { blogDetails: Blog }) => {
+  const router = useRouter();
+
+  if (router.isFallback) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-col max-w-xl m-auto mt-4">
       <div>
@@ -31,7 +36,7 @@ export async function getStaticPaths() {
     params: { blogId: blogDetails.id },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 const getStaticProps: GetStaticProps = async function ({ params }) {
@@ -43,6 +48,7 @@ const getStaticProps: GetStaticProps = async function ({ params }) {
       props: {
         blogDetails: data,
       },
+      revalidate: 20,
     };
   }
 

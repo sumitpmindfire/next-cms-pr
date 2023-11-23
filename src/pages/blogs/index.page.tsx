@@ -1,11 +1,10 @@
 import { BLOGS_LIST_API } from "@/constants/apiUrls";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import Blog from "./types";
+import Blog from "@/types/blogs";
 
 const fetchBlogs = async () => {
   const response = await fetch(BLOGS_LIST_API);
-  if (!response.ok) throw new Error("Error");
   const data = (await response.json()) as Promise<Blog[]>;
   return data;
 };

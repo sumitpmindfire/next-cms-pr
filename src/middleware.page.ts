@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   if (request.url.includes("/auth") && request.cookies.has("user")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (!request.cookies.has("user") && !request.url.includes("/auth")) {
+  if (!request.url.includes("/auth") && !request.cookies.has("user")) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
+  return NextResponse.next();
 }
 
 export const config = {
