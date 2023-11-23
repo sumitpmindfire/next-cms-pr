@@ -2,12 +2,15 @@ import React from "react";
 import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/context/AuthContext";
 
 const Header = () => {
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
 
   const handleLogout = () => {
     router.push("/auth/login");
+    setIsLoggedIn(false);
     deleteCookie("user");
   };
 
