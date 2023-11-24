@@ -1,6 +1,6 @@
 import { BLOGS_LIST_API } from "@/constants/apiUrls";
-import { useRouter } from "next/navigation";
 import Head from "next/head";
+import Link from "next/link";
 import Blog from "@/types/blogs";
 
 const fetchBlogs = async () => {
@@ -10,12 +10,6 @@ const fetchBlogs = async () => {
 };
 
 const Page = ({ blogs }: { blogs: Blog[] }) => {
-  const router = useRouter();
-
-  const handleBlogClick = (blogId: string) => {
-    router.push(`/blogs/${blogId}`);
-  };
-
   return (
     <>
       <Head>
@@ -27,12 +21,13 @@ const Page = ({ blogs }: { blogs: Blog[] }) => {
           <li
             key={blogDetails.id}
             className="my-2 cursor-pointer border p-4 hover:bg-gray-50"
-            onClick={() => handleBlogClick(blogDetails.id)}
           >
-            <div className="flex justify-between grow">
-              <h2>{blogDetails?.title}</h2>
-              <span>{blogDetails.createdAt}</span>
-            </div>
+            <Link href={`/blogs/${blogDetails.id}`}>
+              <div className="flex justify-between grow">
+                <h2>{blogDetails?.title}</h2>
+                <span>{blogDetails.createdAt}</span>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
